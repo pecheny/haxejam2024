@@ -83,16 +83,15 @@ class CardsView implements CardPicker extends BaseDkit {
 
     var input:DataChildrenPool<Card, CardView>;
 
-    static var SRC = <cards vl={PortionLayout.instance}>
-        <label(b().v(pfr, .3).b()) id="lbl"  color={ 0xecb7b7 } text={ "" }  />
-        <base(b().v(pfr, 1).b()) id="cardsContainer" layouts={GuiStyles.L_HOR_CARDS}  />
+    static var SRC = <cards>
+        <base(b().h(pfr, 1).v(pfr, 1).b()) id="cardsContainer" hl={PortionLayout.instance}  />
     </cards>;
 
     override function init() {
         trace("inittt");
         super.init();
         input = new InteractivePanelBuilder().withContainer(cardsContainer.c)
-            .withWidget(() -> new CardView(b().h(sfr, 0.1).v(sfr, 0.1).b()))
+            .withWidget(() -> new CardView(b().h(pfr, 0.1).v(sfr, 0.1).b()))
             .withSignal(onChoice)
             .build();
 
@@ -107,7 +106,7 @@ class CardsView implements CardPicker extends BaseDkit {
 class CastingGuiImpl extends BaseDkit implements CastingGui {
     static var SRC = <casting-gui-impl vl={PortionLayout.instance}>
         <spell(b().v(pfr, .3).b()) public id="spell"     />
-        <cards(b().v(pfr, 1).b()) public id="cards" layouts={GuiStyles.L_HOR_CARDS}  />
+        <cards(b().v(pfr, 1).b()) public id="cards"   />
     </casting-gui-impl>;
 }
 
@@ -116,7 +115,7 @@ class WitchView extends BaseDkit {
     public var health:DeltaProgressBar2;
 
     static var SRC = <witch vl={PortionLayout.instance}>
-        <label(b().v(pfr, .2).b())  text={ "The Which" }  />
+        <label(b().v(pfr, .2).b())  text={ "The Witch" }  />
         <base(b().v(pfr, 1).b()) id="portrait"   />
         <base(b().v(sfr, .02).l().b())   >
         ${ health = new DeltaProgressBar2(__this__.ph)}
