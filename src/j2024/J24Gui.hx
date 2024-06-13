@@ -2,7 +2,7 @@ package j2024;
 
 import al.al2d.Placeholder2D;
 import al.ec.WidgetSwitcher;
-import fancy.widgets.DeltaProgressBar;
+import fancy.widgets.DeltaProgressBar2;
 import widgets.ColouredQuad.InteractiveColors;
 import gl.sets.ColorSet;
 import widgets.ButtonBase.ClickViewProcessor;
@@ -113,25 +113,25 @@ class CastingGuiImpl extends BaseDkit implements CastingGui {
 
 @:uiComp("witch")
 class WitchView extends BaseDkit {
-    public var health:DeltaProgressBar;
+    public var health:DeltaProgressBar2;
 
     static var SRC = <witch vl={PortionLayout.instance}>
         <label(b().v(pfr, .2).b())  text={ "The Which" }  />
         <base(b().v(pfr, 1).b()) id="portrait"   />
         <base(b().v(sfr, .02).l().b())   >
-        ${ health = new DeltaProgressBar(__this__.ph)}
+        ${ health = new DeltaProgressBar2(__this__.ph)}
         </base>
     </witch>;
 }
 
 @:uiComp("seeker")
 class SeekerView extends BaseDkit {
-    public var health:DeltaProgressBar;
+    public var health:DeltaProgressBar2;
 
     static var SRC = <seeker vl={PortionLayout.instance}>
         <label(b().v(pfr, .2).b())  text={ "The Seeker" }  />
         <base(b().v(sfr, .02).l().b())   >
-        ${ health = new DeltaProgressBar(__this__.ph)}
+        ${ health = new DeltaProgressBar2(__this__.ph)}
         </base>
     </seeker>;
 }

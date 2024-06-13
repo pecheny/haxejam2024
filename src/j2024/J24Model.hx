@@ -1,5 +1,6 @@
 package j2024;
 
+import bootstrap.Data.IntCapValue;
 import hxmath.math.MathUtil;
 import bootstrap.Data.IntValue;
 import stset.Stats;
@@ -14,17 +15,19 @@ class J24Model {
 
     public function new() {
         spells.push(new FireSpell());
+        caster = new Actor();
+        target = new Actor();
     }
 
     public function init() {
-        caster = new Actor();
-        caster.initAll({
-            hlt: 20
-        });
-        target = new Actor();
-        target.initAll({
-            hlt: 20
-        });
+        caster.getStat(hlt).init(20);
+        target.getStat(hlt).init(20);
+        // caster.initAll({
+        //     hlt: 20
+        // });
+        // target.initAll({
+        //     hlt: 20
+        // });
     }
 
     public function startGame() {
@@ -98,7 +101,7 @@ enum abstract SpellcrStat(String) to String from String {
     var hlt;
 }
 
-class SpellcrStats extends Stats<SpellcrStat, IntValue> {}
+class SpellcrStats extends Stats<SpellcrStat, IntCapValue> {}
 typedef Actor = SpellcrStats;
 
 typedef SpellCtx = {
