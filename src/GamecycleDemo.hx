@@ -1,5 +1,6 @@
 package;
 
+import ginp.Keyboard;
 import widgets.CMSDFLabel;
 import j2024.BattleRun;
 import j2024.MrunesRun;
@@ -27,6 +28,7 @@ using transform.LiquidTransformer;
 using widgets.utils.Utils;
 
 class GamecycleDemo extends BootstrapMain {
+    var kbinder = new utils.KeyBinder();
     public function new() {
         super();
 
@@ -38,5 +40,10 @@ class GamecycleDemo extends BootstrapMain {
         run.entity.addComponentByType(GameRun, run);
         new CtxWatcher(GameRunBinder, run.entity);
         rootEntity.addChild(run.entity);
+        kbinder.addCommand(Keyboard.R, ()-> {
+            run.reset();
+            run.startGame();
+
+        });
     }
 }
