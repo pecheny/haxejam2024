@@ -1,5 +1,8 @@
 package j2024;
 
+import al.al2d.Placeholder2D;
+import al.ec.WidgetSwitcher;
+import fancy.widgets.DeltaProgressBar;
 import widgets.ColouredQuad.InteractiveColors;
 import gl.sets.ColorSet;
 import widgets.ButtonBase.ClickViewProcessor;
@@ -16,8 +19,10 @@ import utils.Signal.IntSignal;
 
 class CardView extends BaseDkit implements DataView<Card> {
     public var onDone:Signal<Void->Void> = new Signal();
+
     @:once var colors:ShapesColorAssigner<ColorSet>;
     @:once var viewProc:ClickViewProcessor;
+
     static var SRC = <card-view vl={PortionLayout.instance}>
         ${fui.quad(__this__.ph, 0x000000)}
         <label(b().v(pfr, .2).b()) id="suit"  text={ "Lets play!1" }  />
@@ -28,10 +33,12 @@ class CardView extends BaseDkit implements DataView<Card> {
         super.init();
         viewProc.addHandler(new InteractiveColors(colors.setColor).viewHandler);
     }
+
     public function initData(descr:Card) {
         if (descr == null) {
             suit.text = "_";
             rune.text = "_";
+            suit.color = 0xffffff;
             return;
         }
         suit.text = descr.suit;
@@ -40,7 +47,6 @@ class CardView extends BaseDkit implements DataView<Card> {
             case fire: 0xff0000;
             case water: 0x00a0ff;
             case wood: 0x00ff90;
-            case _: 0xffffff;
         }
     }
 }
@@ -53,8 +59,9 @@ class SpellView implements ISpellView extends BaseDkit {
 </spell>;
 
     public var onChoice(default, null) = new IntSignal();
+
     public function setAt(n:Int, state:Null<Card>) {
-        input.pool[n].initData(state);
+        input?.pool[n].initData(state);
     }
 
     var input:DataChildrenPool<Card, CardView>;
@@ -62,13 +69,11 @@ class SpellView implements ISpellView extends BaseDkit {
     override function init() {
         super.init();
         input = new InteractivePanelBuilder().withContainer(cardsContainer.c)
-            .withWidget(() -> new CardView(b().h(sfr, 0.1).v(sfr, 0.1).b()))
-            // .withInput((_, _) -> {})
+            .withWidget(() -> new CardView(b().h(sfr, 0.1).v(sfr, 0.1).b())) // .withInput((_, _) -> {})
             .withSignal(onChoice)
             .build();
 
-        // onChoice.listen(n -> trace(@:privateAccess input.pool[n].suit.text));
-        input.initData([null,null,null,null, null,null,null,null]);
+        input.initData([null, null, null, null, null, null, null, null]);
     }
 }
 
@@ -84,6 +89,7 @@ class CardsView implements CardPicker extends BaseDkit {
     </cards>;
 
     override function init() {
+        trace("inittt");
         super.init();
         input = new InteractivePanelBuilder().withContainer(cardsContainer.c)
             .withWidget(() -> new CardView(b().h(sfr, 0.1).v(sfr, 0.1).b()))
@@ -92,10 +98,9 @@ class CardsView implements CardPicker extends BaseDkit {
 
         onChoice.listen(n -> input.pool[n].initData(null));
     }
-    
 
     public function initData(descr:Array<Card>) {
-        input.initData(descr);
+        input?.initData(descr);
     }
 }
 
@@ -104,4 +109,68 @@ class CastingGuiImpl extends BaseDkit implements CastingGui {
         <spell(b().v(pfr, .3).b()) public id="spell"     />
         <cards(b().v(pfr, 1).b()) public id="cards" layouts={GuiStyles.L_HOR_CARDS}  />
     </casting-gui-impl>;
+}
+
+@:uiComp("witch")
+class WitchView extends BaseDkit {
+    public var health:DeltaProgressBar;
+
+    static var SRC = <witch vl={PortionLayout.instance}>
+        <label(b().v(pfr, .2).b())  text={ "The Which" }  />
+        <base(b().v(pfr, 1).b()) id="portrait"   />
+        <base(b().v(sfr, .02).l().b())   >
+        ${ health = new DeltaProgressBar(__this__.ph)}
+        </base>
+    </witch>;
+}
+
+@:uiComp("seeker")
+class SeekerView extends BaseDkit {
+    public var health:DeltaProgressBar;
+
+    static var SRC = <seeker vl={PortionLayout.instance}>
+        <label(b().v(pfr, .2).b())  text={ "The Seeker" }  />
+        <base(b().v(sfr, .02).l().b())   >
+        ${ health = new DeltaProgressBar(__this__.ph)}
+        </base>
+    </seeker>;
+}
+
+@:uiComp("switcher")
+class SwitcherView extends BaseDkit {
+    public var switcher:WidgetSwitcher<Axis2D>;
+
+    public function new(p:Placeholder2D, ?parent:BaseDkit) {
+        super(p, parent);
+        initComponent();
+        // fui.quad(p,0xff0000);
+        switcher = new WidgetSwitcher(p);
+    }
+}
+
+class AntoGui extends BaseDkit {
+    public var onDone:Signal<Void->Void> = new Signal();
+
+    static var SRC = <anto-gui vl={PortionLayout.instance}>
+        <label(b().v(pfr, .2).b()) id="lbl"  text={ "Nice turn" }  >
+        </label>
+        <button(b().v(pfr, .1).b())   text={ "again" } onClick={onOkClick}  />
+    </anto-gui>
+
+    function onOkClick() {
+        onDone.dispatch();
+    }
+}
+
+class MrunesScreen extends BaseDkit {
+    static var SRC = <mrunes-screen vl={PortionLayout.instance}>
+        <base(b().v(pfr, .4).b()) hl={PortionLayout.instance}>
+            <witch(b().b()) public id="witch"/>
+            <label(b().b()) public id="witchLabel" text={"– Hi there"}/>
+        </base>
+        <switcher(b().v(pfr, .4).b()) public id="switcher">
+        // ${fui.quad(__this__.ph, 0x000000)}
+        </switcher>
+        <seeker(b().v(pfr, .2).b()) public id="seeker"  />
+    </mrunes-screen>
 }
