@@ -88,7 +88,6 @@ class CardsView implements CardPicker extends BaseDkit {
     </cards>;
 
     override function init() {
-        trace("inittt");
         super.init();
         input = new InteractivePanelBuilder().withContainer(cardsContainer.c)
             .withWidget(() -> new CardView(b().h(pfr, 0.1).v(sfr, 0.1).b()))
