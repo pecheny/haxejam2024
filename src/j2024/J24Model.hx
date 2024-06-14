@@ -68,9 +68,9 @@ enum abstract Rune(String) to String {
 }
 
 enum abstract Suit(String) to String {
-    var fire = "fire";
-    var water = "water";
-    var wood = "wood";
+    var fire = "ў";
+    var water = "ӯ";
+    var wood = "Ó";
 }
 
 class Card {
