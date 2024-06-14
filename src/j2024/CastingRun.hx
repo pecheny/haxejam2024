@@ -12,6 +12,7 @@ import bootstrap.GameRunBase;
 class CastingRun extends GameRunBase {
     var gui:CastingGui;
     @:once var model:J24Model;
+    @:once var logger:HintLogger;
 
     var cards:Array<Card>;
     var word:Array<Card> = [];
@@ -36,7 +37,7 @@ class CastingRun extends GameRunBase {
     }
 
     function onPick(n:Int) {
-        if(wasted.contains(n))
+        if (wasted.contains(n))
             return;
         var card = cards[n];
         wasted.push(n);
@@ -65,6 +66,10 @@ class CastingRun extends GameRunBase {
         }
         if (spell != null)
             castSpell(spell);
+        if (fail) {
+            gameOvered.dispatch();
+            logger.addHint("Ha! Not a spell!");
+        }
     }
 
     function getCard() {
