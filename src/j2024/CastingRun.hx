@@ -16,6 +16,7 @@ class CastingRun extends GameRunBase {
     var cards:Array<Card>;
     var word:Array<Card> = [];
     var numPicks:Int;
+    var wasted:Array<Int> = [];
 
     public function new(ctx, gui) {
         this.gui = gui;
@@ -26,6 +27,7 @@ class CastingRun extends GameRunBase {
     override function startGame() {
         model.resetCtx();
         word.resize(0);
+        wasted.resize(0);
         numPicks = 0;
         for (i in 0...8)
             gui.spell.setAt(i, null);
@@ -34,7 +36,10 @@ class CastingRun extends GameRunBase {
     }
 
     function onPick(n:Int) {
+        if(wasted.contains(n))
+            return;
         var card = cards[n];
+        wasted.push(n);
         word.push(card);
         gui.spell.setAt(numPicks, card);
         numPicks++;
