@@ -14,6 +14,7 @@ using widgets.utils.Utils;
 
 class GamecycleDemo extends BootstrapMain {
     var kbinder = new utils.KeyBinder();
+
     public function new() {
         super();
 
@@ -30,5 +31,17 @@ class GamecycleDemo extends BootstrapMain {
             run.startGame();
 
         });
+    }
+    override function textStyles() {
+        super.textStyles();
+        var fitStyle = fui.textStyles.newStyle("rune")
+        .withSize(pfr, .7)
+        .withAlign(horizontal, Center)
+        .withAlign(vertical, Center)
+        // .withPadding(horizontal, pfr, 0.33)
+        // .withPadding(vertical, pfr, 0.33)
+        .build();
+        fui.textStyles.resetToDefaults();
+
     }
 }

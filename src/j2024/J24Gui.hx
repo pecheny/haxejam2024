@@ -25,8 +25,8 @@ class CardView extends BaseDkit implements DataView<Card> {
 
     static var SRC = <card-view vl={PortionLayout.instance}>
         ${fui.quad(__this__.ph, 0x000000)}
-        <label(b().v(pfr, 4).b()) id="suit"  text={ "Lets play!1" }  />
-        <label(b().v(pfr, 6).b()) id="rune"  text={ "Lets play!1" }  />
+        <label(b().v(pfr, 4).b()) id="suit"  style={"rune"}  />
+        <label(b().v(pfr, 6).b()) id="rune"  style={"rune"}  />
     </card-view>
 
     override function init() {
