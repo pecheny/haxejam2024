@@ -13,11 +13,15 @@ class MrunesRun extends SequenceRun {
     var model:J24Model;
     var gui:MrunesScreen;
     var battle:BattleRun;
+    var logger:HintLogger;
 
     public function new(ctx, ph:Placeholder2D) {
         gui = new MrunesScreen(ph);
         super(ctx, ph, gui.switcher.switcher);
         model = new J24Model();
+        logger = new HintLogger(gui.witchLabel);
+        model.logger = logger;
+        ctx.addComponent(logger);
 
         bindBar(model.target.getStat(hlt), gui.witch.health);
         bindBar(model.caster.getStat(hlt), gui.seeker.health);
@@ -38,6 +42,7 @@ class MrunesRun extends SequenceRun {
     }
 
     override function reset() {
+        logger.reset();
         super.reset();
         model.init();
         model.resetCtx();

@@ -12,6 +12,7 @@ class J24Model {
     public var cst:Array<Card>;
     public var caster:Actor;
     public var target:Actor;
+    public var logger:HintLogger;
 
     public function new() {
         spells.push(new FireSpell());
@@ -51,6 +52,7 @@ class J24Model {
             if(!c.matches(this))
                 continue;
             c.apply(this);
+            logger.addHint(c.descr);
         }
     }
 }
