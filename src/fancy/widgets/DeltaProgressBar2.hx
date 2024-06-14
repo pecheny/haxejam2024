@@ -21,6 +21,7 @@ class DeltaProgressBar2 extends Widget implements Updatable {
 
     public function new(w) {
         super(w);
+        new ProgressBarWidget(w, 0x000000);
         healthRed = new ProgressBarWidget(w, 0xff0000);
         healthbar = new ProgressBarWidget(w);
         w.entity.addComponentByType(Updatable, this);
