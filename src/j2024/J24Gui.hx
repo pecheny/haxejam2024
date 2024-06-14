@@ -25,13 +25,27 @@ class CardView extends BaseDkit implements DataView<Card> {
 
     static var SRC = <card-view vl={PortionLayout.instance}>
         ${fui.quad(__this__.ph, 0x000000)}
-        <label(b().v(pfr, .2).b()) id="suit"  text={ "Lets play!1" }  />
-        <label(b().v(pfr, 1.2).b()) id="rune"  text={ "Lets play!1" }  />
+        <label(b().v(pfr, 4).b()) id="suit"  text={ "Lets play!1" }  />
+        <label(b().v(pfr, 6).b()) id="rune"  text={ "Lets play!1" }  />
     </card-view>
 
     override function init() {
         super.init();
-        viewProc.addHandler(new InteractiveColors(colors.setColor).viewHandler);
+        if (ibg)
+            interactiveBg();
+    }
+
+    var ibg = false;
+
+    public function interactiveBg() {
+        if (viewProc == null)
+            ibg = true;
+        else
+            viewProc.addHandler(new InteractiveColors(colors.setColor).viewHandler);
+    }
+
+    public function staticBg(c:Int) {
+        colors.setColor(c);
     }
 
     public function initData(descr:Card) {
@@ -69,7 +83,11 @@ class SpellView implements ISpellView extends BaseDkit {
     override function init() {
         super.init();
         input = new InteractivePanelBuilder().withContainer(cardsContainer.c)
-            .withWidget(() -> new CardView(b().h(sfr, 0.1).v(sfr, 0.1).b())) // .withInput((_, _) -> {})
+            .withWidget(() -> {
+                var c = new CardView(b().h(sfr, 0.1).v(sfr, 0.1).b());
+                c.staticBg(0x493C29);
+                c;
+            }) // .withInput((_, _) -> {})
             .withSignal(onChoice)
             .build();
 
@@ -90,7 +108,11 @@ class CardsView implements CardPicker extends BaseDkit {
     override function init() {
         super.init();
         input = new InteractivePanelBuilder().withContainer(cardsContainer.c)
-            .withWidget(() -> new CardView(b().h(pfr, 0.1).v(sfr, 0.1).b()))
+            .withWidget(() -> {
+                var c = new CardView(b().h(pfr, 0.1).v(sfr, 0.1).b());
+                c.interactiveBg();
+                c;
+            })
             .withSignal(onChoice)
             .build();
 
