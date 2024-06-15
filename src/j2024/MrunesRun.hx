@@ -13,24 +13,23 @@ import bootstrap.Activitor;
 
 class MrunesRun extends SequenceRun implements ActHandler<BattleDesc> {
     var model:J24Model;
-    var gui:MrunesScreen;
+    @:once var gui:MrunesScreen;
     var battle:BattleRun;
     var logger:HintLogger;
 
-    public function new(ctx, ph:Placeholder2D) {
-        gui = new MrunesScreen(ph);
-        super(ctx, ph, gui.switcher.switcher);
+    override function init() {
         model = new J24Model();
         logger = new HintLogger(gui.witchLabel);
         model.logger = logger;
-        ctx.addComponent(logger);
+        entity.addComponent(logger);
 
         bindBar(model.target.getStat(hlt), gui.witch.health);
         bindBar(model.caster.getStat(hlt), gui.seeker.health);
 
-        ctx.addComponent(model);
+        entity.addComponent(model);
         battle = new BattleRun(new Entity("battle"), Builder.widget(), gui.switcher.switcher);
         addActivity(battle);
+        reset();
     }
 
     function bindBar(stat:IntCapValue, dpb:DeltaProgressBar2) {
@@ -49,9 +48,9 @@ class MrunesRun extends SequenceRun implements ActHandler<BattleDesc> {
     }
 
     override function reset() {
-        logger.reset();
-        super.reset();
-        model.init();
-        model.resetCtx();
+        logger?.reset();
+        super?.reset();
+        model?.init();
+        model?.resetCtx();
     }
 }

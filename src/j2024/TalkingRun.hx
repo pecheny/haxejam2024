@@ -1,5 +1,6 @@
 package j2024;
 
+import j2024.J24Gui.MrunesScreen;
 import al.al2d.Placeholder2D;
 import haxe.CallStack;
 import al.ec.WidgetSwitcher;
@@ -21,28 +22,33 @@ class TalkingRun extends GameRunBase {
     @:once var scenes:SceneManager<ActivityDesc>;
     @:once var acts:Activitor;
     @:once var fui:FuiBuilder;
+    var gui:MrunesScreen;
     var act:GameRun;
     var switcher:WidgetSwitcher<Axis2D>;
     var talkingState:TalkState;
 
     public function new(ctx:Entity, w:Placeholder2D) {
         defs = new MrunesDefs();
+        gui = new MrunesScreen(w);
+        ctx.addComponent(gui);
+
+        switcher = gui.switcher.switcher;
         scenes = ctx.addComponent(new SceneManager<ActivityDesc>());
         ctx.addComponent(new Actor());
         acts = new Activitor(ctx);
-        switcher = new WidgetSwitcher(w);
+        // switcher = new WidgetSwitcher(w);
         super(ctx, w);
     }
 
     var inited = false;
-    
+
     override function init() {
         talkingState = new TalkState(scenes, defs);
         getView().entity.addComponent(fui.textStyles.getStyle("small-text"));
         var ctx = entity.addComponent(new ExecCtx(entity));
         entity.addComponent(new Executor(ctx.vars));
         var talking = addactivity(new TalkingActivity(new Entity("talk-run"), Builder.widget()));
-        var battle = addactivity(new MrunesRun(new Entity("battle-run"), Builder.widget()));
+        var battle = addactivity(new MrunesRun(new Entity("battle-run"), Builder.widget(), switcher));
         acts.regHandler(talking, DialogData);
         acts.regHandler(battle, BattleData);
         inited = true;
