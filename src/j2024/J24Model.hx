@@ -21,6 +21,8 @@ class J24Model {
 
     public function new() {
         spells.push(new FireSpell());
+        spells.push(new PineSpell());
+        spells.push(new RainSpell());
         caster = new Actor();
         target = new Actor();
     }
@@ -57,6 +59,16 @@ class J24Model {
             c.apply(this);
             logger.addHint(c.descr);
         }
+    }
+
+    public function hitTarget(dmg:Int, ?type:String) {
+        target.hlt -= dmg;
+        logger.addHint('$dmg damage dealt');
+    }
+
+    public function hitCaster(dmg:Int, ?type:String) {
+        caster.hlt -= dmg;
+        logger.addHint('$dmg damage dealt');
     }
 }
 
@@ -98,8 +110,8 @@ class Spell {
 typedef Case = {
     public var descr:String;
 
-    public function matches(cst:SpellCtx):Bool;
-    public function apply(ctx:SpellCtx):Void;
+    public function matches(cst:J24Model):Bool;
+    public function apply(ctx:J24Model):Void;
 }
 
 enum abstract SpellcrStat(String) to String from String {
@@ -109,13 +121,13 @@ enum abstract SpellcrStat(String) to String from String {
 class SpellcrStats extends Stats<SpellcrStat, IntCapValue> {}
 typedef Actor = SpellcrStats;
 
-typedef SpellCtx = {
-    var caster:Actor;
-    var target:Actor;
-    var cst:Array<Card>;
-    var spell:Spell;
-    var counts:Map<Suit, Int>;
-}
+// typedef SpellCtx = {
+//     var caster:Actor;
+//     var target:Actor;
+//     var cst:Array<Card>;
+//     var spell:Spell;
+//     var counts:Map<Suit, Int>;
+// }
 
 typedef BattleDesc = {}
 class BattleData extends DescWrap<BattleDesc> {}
@@ -127,7 +139,8 @@ enum ActivityDesc {
 
 @:keep
 class ExecCtx extends Component {
-    @:once var stats:Actor;
+    @:once var model:J24Model;
+    @:once var logger:HintLogger;
     @:once var scenes:SceneManager<ActivityDesc>;
 
     var ctx:ExecCtx;
@@ -135,8 +148,8 @@ class ExecCtx extends Component {
     @:isVar public var vars(get, null):Dynamic = {};
 
     override function init() {
-        for (k in stats.stats.keys())
-            Reflect.setField(vars, k, k);
+        // for (k in stats.stats.keys())
+        //     Reflect.setField(vars, k, k);
         Reflect.setField(vars, "ctx", this);
         ctx = this;
     }
@@ -157,6 +170,7 @@ class ExecCtx extends Component {
         } else
             throw "Wrong";
     }
+
 
     public function battle() {
         scenes.pushScene(Battle({}));

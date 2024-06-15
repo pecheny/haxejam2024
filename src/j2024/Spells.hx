@@ -9,7 +9,7 @@ class FireSpell extends Spell {
         word = "fire";
         cases.push({
             matches: ctx -> ctx.counts[fire] > 0,
-            apply: ctx -> ctx.target.hlt -= ctx.counts[fire] * dmg,
+            apply: ctx -> ctx.hitTarget(ctx.counts[fire] * dmg),
             descr: 'Fire spell deals $dmg damege per $fire rune used.'
         });
         cases.push({
@@ -30,7 +30,7 @@ class PineSpell extends Spell {
         word = "pine";
         cases.push({
             matches: ctx -> ctx.counts[wood] > 0,
-            apply: ctx -> ctx.target.hlt -= ctx.counts[wood] * dmg,
+            apply: ctx -> ctx.hitTarget(ctx.counts[wood] * dmg),
             descr: 'Pine spell deals $dmg damege per $wood rune used.'
         });
         cases.push({
@@ -51,7 +51,7 @@ class RainSpell extends Spell {
         word = "rain";
         cases.push({
             matches: ctx -> ctx.counts[water] > 0,
-            apply: ctx -> ctx.target.hlt -= ctx.counts[water] * dmg,
+            apply: ctx -> ctx.hitTarget(ctx.counts[water] * dmg),
             descr: 'Rain spell deals $dmg damege per $water rune used.'
         });
         // cases.push({
