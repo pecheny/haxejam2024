@@ -1,5 +1,7 @@
 package j2024;
 
+import al.al2d.Placeholder2D;
+import haxe.CallStack;
 import al.ec.WidgetSwitcher;
 import gameapi.GameRun;
 import al.Builder;
@@ -15,30 +17,38 @@ import j2024.MrunesDefs;
 import bootstrap.GameRunBase;
 
 class TalkingRun extends GameRunBase {
-    var defs:MrunesDefs;
-    var scenes:SceneManager<ActivityDesc>;
-    var acts:Activitor;
+    @:once var defs:MrunesDefs;
+    @:once var scenes:SceneManager<ActivityDesc>;
+    @:once var acts:Activitor;
     @:once var fui:FuiBuilder;
     var act:GameRun;
     var switcher:WidgetSwitcher<Axis2D>;
+    var talkingState:TalkState;
 
-    override function init() {
-        super.init();
+    public function new(ctx:Entity, w:Placeholder2D) {
+        
         defs = new MrunesDefs();
-        switcher = new WidgetSwitcher(getView());
-        entity.addComponent(new Actor());
-        getView().entity.addComponent(fui.textStyles.getStyle("small-text"));
-        createCtx();
-        nextRoom();
+        scenes = ctx.addComponent(new SceneManager<ActivityDesc>());
+        ctx.addComponent(new Actor());
+        acts = new Activitor(ctx);
+        switcher = new WidgetSwitcher(w);
+        super(ctx, w);
     }
 
-    function createCtx() {
-        scenes = entity.addComponent(new SceneManager<ActivityDesc>());
+    var inited = false;
+    override function init() {
+        talkingState = new TalkState(scenes, defs);
+        getView().entity.addComponent(fui.textStyles.getStyle("small-text"));
         var ctx = entity.addComponent(new ExecCtx(entity));
         entity.addComponent(new Executor(ctx.vars));
         var talking = addactivity(new TalkingActivity(new Entity("talk-run"), Builder.widget()));
-        acts = new Activitor(entity);
         acts.regHandler(talking, DialogData);
+        inited = true;
+    }
+
+    override function reset() {
+        act?.reset();
+        talkingState?.reset();
     }
 
     function addactivity<T:GameRun>(act:T):T {
@@ -47,20 +57,20 @@ class TalkingRun extends GameRunBase {
         return act;
     }
 
-    var talkIds = ["chap-1"];
-
     function getNextDescr():ActivityDesc {
         var remains = entity.getComponent(SceneManager).pullScene();
         if (remains != null)
             return remains;
-        var talkId = talkIds[0];
-        var tlkDsc = defs.dialogs.get(talkId);
-        scenes.currentTalk = tlkDsc;
-        return Talk(tlkDsc[0]);
+        return talkingState.getNextDialog();
+    }
+
+    override function startGame() {
+        if (!inited)
+            return;
+        nextRoom();
     }
 
     function nextRoom() {
-        trace("room");
         this.act?.reset();
         var act = switch getNextDescr() {
             case Talk(b): acts.getHandler(DialogData).initDescr(b);
@@ -87,6 +97,47 @@ class TalkingRun extends GameRunBase {
         //     nextRoom();
         // }
         nextRoom();
+    }
+}
+
+class TalkState {
+    var talkIds = ["chap-1"];
+    var scenes:SceneManager<ActivityDesc>;
+    var defs:MrunesDefs;
+    var chapId:Int;
+    var dialogId:Int;
+
+    public function new(s, d) {
+        this.scenes = s;
+        this.defs = d;
+    }
+
+    public function reset() {
+        startChap(0);
+    }
+
+    public function startChap(n:Int) {
+        if (talkIds.length <= n)
+            throw "no chap " + n;
+        chapId = n;
+        var tlkDsc = defs.dialogs.get(talkIds[chapId]);
+        scenes.currentTalk = tlkDsc;
+        dialogId = -1;
+    }
+
+    function hasChapters() {
+        return chapId < talkIds.length - 1;
+    }
+
+    public function getNextDialog() {
+        if (scenes.currentTalk.length < dialogId - 1) {
+            if (hasChapters())
+                startChap(chapId++)
+            else
+                startChap(0);
+        }
+        dialogId++;
+        return Talk(scenes.currentTalk[dialogId]);
     }
 }
 
