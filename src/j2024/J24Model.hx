@@ -1,11 +1,13 @@
 package j2024;
 
-import loops.talk.TalkData;
-import bootstrap.DescWrap;
-import j2024.Spells;
 import bootstrap.Data.IntCapValue;
-import hxmath.math.MathUtil;
 import bootstrap.Data.IntValue;
+import bootstrap.DescWrap;
+import bootstrap.SceneManager;
+import ec.Component;
+import hxmath.math.MathUtil;
+import j2024.Spells;
+import loops.talk.TalkData;
 import stset.Stats;
 
 class J24Model {
@@ -34,9 +36,7 @@ class J24Model {
         // });
     }
 
-    public function startGame() {
-        
-    }
+    public function startGame() {}
 
     public function resetCtx() {
         spell = null;
@@ -52,7 +52,7 @@ class J24Model {
         for (c in cst)
             counts[c.suit]++;
         for (c in spell.cases) {
-            if(!c.matches(this))
+            if (!c.matches(this))
                 continue;
             c.apply(this);
             logger.addHint(c.descr);
@@ -123,4 +123,48 @@ class BattleData extends DescWrap<BattleDesc> {}
 enum ActivityDesc {
     Talk(talk:DialogDesc);
     Battle(b:BattleDesc);
+}
+
+@:keep
+class ExecCtx extends Component {
+    @:once var stats:Actor;
+    @:once var scenes:SceneManager<ActivityDesc>;
+
+    var ctx:ExecCtx;
+
+    @:isVar public var vars(get, null):Dynamic = {};
+
+    override function init() {
+        for (k in stats.stats.keys())
+            Reflect.setField(vars, k, k);
+        Reflect.setField(vars, "ctx", this);
+        ctx = this;
+    }
+
+    public function changeStat(statId, delta:Int) {
+        trace("change " + statId + " " + delta + " " + this);
+    }
+
+    public function talk(id:String) {
+        trace("addAct " + id);
+        var ct = scenes.currentTalk;
+        if (ct != null) {
+            for (dd in ct)
+                if (dd.id == id) {
+                    scenes.pushScene(Talk(dd));
+                    return;
+                }
+        } else
+            throw "Wrong";
+    }
+
+    public function battle() {
+        scenes.pushScene(Battle({}));
+    }
+
+    function get_vars():Dynamic {
+        if (!_inited)
+            throw "wrong";
+        return vars;
+    }
 }

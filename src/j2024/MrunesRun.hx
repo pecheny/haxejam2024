@@ -12,16 +12,11 @@ import j2024.J24Model;
 import bootstrap.Activitor;
 
 class MrunesRun extends SequenceRun implements ActHandler<BattleDesc> {
-    var model:J24Model;
+    @:once var model:J24Model;
     @:once var gui:MrunesScreen;
     var battle:BattleRun;
-    var logger:HintLogger;
 
     override function init() {
-        model = new J24Model();
-        logger = new HintLogger(gui.witchLabel);
-        model.logger = logger;
-        entity.addComponent(logger);
 
         bindBar(model.target.getStat(hlt), gui.witch.health);
         bindBar(model.caster.getStat(hlt), gui.seeker.health);
@@ -48,7 +43,6 @@ class MrunesRun extends SequenceRun implements ActHandler<BattleDesc> {
     }
 
     override function reset() {
-        logger?.reset();
         super?.reset();
         model?.init();
         model?.resetCtx();

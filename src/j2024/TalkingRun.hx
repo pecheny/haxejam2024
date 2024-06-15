@@ -1,35 +1,42 @@
 package j2024;
 
-import j2024.J24Gui.MrunesScreen;
-import al.al2d.Placeholder2D;
-import haxe.CallStack;
-import al.ec.WidgetSwitcher;
-import gameapi.GameRun;
 import al.Builder;
-import ec.Entity;
-import loops.talk.TalkingActivity;
+import al.al2d.Placeholder2D;
+import al.ec.WidgetSwitcher;
 import bootstrap.Activitor;
-import loops.talk.TalkData;
 import bootstrap.Executor;
+import bootstrap.GameRunBase;
 import bootstrap.SceneManager;
-import ec.Component;
+import ec.Entity;
+import gameapi.GameRun;
+import j2024.J24Gui.MrunesScreen;
 import j2024.J24Model;
 import j2024.MrunesDefs;
-import bootstrap.GameRunBase;
+import loops.talk.TalkData;
+import loops.talk.TalkingActivity;
 
 class TalkingRun extends GameRunBase {
     @:once var defs:MrunesDefs;
     @:once var scenes:SceneManager<ActivityDesc>;
     @:once var acts:Activitor;
     @:once var fui:FuiBuilder;
+    var logger:HintLogger;
+
+     var model:J24Model;
     var gui:MrunesScreen;
     var act:GameRun;
     var switcher:WidgetSwitcher<Axis2D>;
     var talkingState:TalkState;
 
     public function new(ctx:Entity, w:Placeholder2D) {
-        defs = new MrunesDefs();
+        entity = ctx;
         gui = new MrunesScreen(w);
+        defs = new MrunesDefs();
+        model = new J24Model();
+        logger = new HintLogger(gui.witchLabel);
+        model.logger = logger;
+        entity.addComponent(logger);
+        entity.addComponent(model);
         ctx.addComponent(gui);
 
         switcher = gui.switcher.switcher;
@@ -56,6 +63,7 @@ class TalkingRun extends GameRunBase {
 
     override function reset() {
         act?.reset();
+        logger?.reset();
         talkingState?.reset();
     }
 
@@ -153,46 +161,4 @@ class TalkState {
 
 typedef TalkId = String;
 
-@:keep
-class ExecCtx extends Component {
-    @:once var stats:Actor;
-    @:once var scenes:SceneManager<ActivityDesc>;
 
-    var ctx:ExecCtx;
-
-    @:isVar public var vars(get, null):Dynamic = {};
-
-    override function init() {
-        for (k in stats.stats.keys())
-            Reflect.setField(vars, k, k);
-        Reflect.setField(vars, "ctx", this);
-        ctx = this;
-    }
-
-    public function changeStat(statId, delta:Int) {
-        trace("change " + statId + " " + delta + " " + this);
-    }
-
-    public function talk(id:String) {
-        trace("addAct " + id);
-        var ct = scenes.currentTalk;
-        if (ct != null) {
-            for (dd in ct)
-                if (dd.id == id) {
-                    scenes.pushScene(Talk(dd));
-                    return;
-                }
-        } else
-            throw "Wrong";
-    }
-
-    public function battle() {
-        scenes.pushScene(Battle({}));
-    }
-
-    function get_vars():Dynamic {
-        if (!_inited)
-            throw "wrong";
-        return vars;
-    }
-}
