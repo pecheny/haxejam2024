@@ -1,5 +1,6 @@
 package;
 
+import j2024.TalkingRun;
 import bootstrap.BootstrapMain;
 import ec.CtxWatcher;
 import ec.Entity;
@@ -22,7 +23,8 @@ class GamecycleDemo extends BootstrapMain {
         fui.makeClickInput(ph);
 
         var e = new Entity("run");
-        var run = new MrunesRun(e, ph);
+        // var run = new MrunesRun(e, ph);
+        var run = new TalkingRun(e, ph);
         run.entity.addComponentByType(GameRun, run);
         new CtxWatcher(GameRunBinder, run.entity);
         rootEntity.addChild(run.entity);

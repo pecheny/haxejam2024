@@ -73,6 +73,7 @@ class CastingRun extends GameRunBase {
     }
 
     function getCard() {
+        // get deck from ctx
         var runes = AbstractEnumTools.getValues(Rune);
         var suits = AbstractEnumTools.getValues(Suit);
         return new Card(Random.fromArray(suits), Random.fromArray(runes));
