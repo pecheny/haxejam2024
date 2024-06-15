@@ -8,8 +8,10 @@ import al.al2d.Placeholder2D;
 import bootstrap.SequenceRun;
 import bootstrap.GameRunBase;
 import j2024.J24Gui;
+import j2024.J24Model;
+import bootstrap.Activitor;
 
-class MrunesRun extends SequenceRun {
+class MrunesRun extends SequenceRun implements ActHandler<BattleDesc> {
     var model:J24Model;
     var gui:MrunesScreen;
     var battle:BattleRun;
@@ -35,6 +37,11 @@ class MrunesRun extends SequenceRun {
         stat.onChange.listen((v) -> {
             dpb.setValue(stat.getVal(), stat.max);
         });
+    }
+
+    public function initDescr(d:BattleDesc):ActHandler<BattleDesc> {
+        trace("init btl");
+        return this;
     }
 
     override function startGame() {

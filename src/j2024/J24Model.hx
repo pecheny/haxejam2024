@@ -1,5 +1,7 @@
 package j2024;
 
+import loops.talk.TalkData;
+import bootstrap.DescWrap;
 import j2024.Spells;
 import bootstrap.Data.IntCapValue;
 import hxmath.math.MathUtil;
@@ -115,4 +117,10 @@ typedef SpellCtx = {
     var counts:Map<Suit, Int>;
 }
 
+typedef BattleDesc = {}
+class BattleData extends DescWrap<BattleDesc> {}
 
+enum ActivityDesc {
+    Talk(talk:DialogDesc);
+    Battle(b:BattleDesc);
+}

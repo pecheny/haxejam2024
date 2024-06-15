@@ -26,7 +26,6 @@ class TalkingRun extends GameRunBase {
     var talkingState:TalkState;
 
     public function new(ctx:Entity, w:Placeholder2D) {
-        
         defs = new MrunesDefs();
         scenes = ctx.addComponent(new SceneManager<ActivityDesc>());
         ctx.addComponent(new Actor());
@@ -36,13 +35,16 @@ class TalkingRun extends GameRunBase {
     }
 
     var inited = false;
+    
     override function init() {
         talkingState = new TalkState(scenes, defs);
         getView().entity.addComponent(fui.textStyles.getStyle("small-text"));
         var ctx = entity.addComponent(new ExecCtx(entity));
         entity.addComponent(new Executor(ctx.vars));
         var talking = addactivity(new TalkingActivity(new Entity("talk-run"), Builder.widget()));
+        var battle = addactivity(new MrunesRun(new Entity("battle-run"), Builder.widget()));
         acts.regHandler(talking, DialogData);
+        acts.regHandler(battle, BattleData);
         inited = true;
     }
 
@@ -52,6 +54,7 @@ class TalkingRun extends GameRunBase {
     }
 
     function addactivity<T:GameRun>(act:T):T {
+        act.reset();
         act.gameOvered.listen(onActEnd);
         entity.addChild(act.entity);
         return act;
@@ -74,6 +77,7 @@ class TalkingRun extends GameRunBase {
         this.act?.reset();
         var act = switch getNextDescr() {
             case Talk(b): acts.getHandler(DialogData).initDescr(b);
+            case Battle(b): acts.getHandler(BattleData).initDescr(b);
         }
         switchAct(act);
     }
@@ -174,6 +178,10 @@ class ExecCtx extends Component {
                 }
         } else
             throw "Wrong";
+    }
+
+    public function battle() {
+        scenes.pushScene(Battle({}));
     }
 
     function get_vars():Dynamic {

@@ -11,4 +11,5 @@ class BattleRun extends SequenceRun {
         addActivity(new CastingRun(new Entity("casting-run"), new CastingGuiImpl(Builder.widget())));
         addActivity(new AntoRun(new Entity("anti-run"), new AntoGui(Builder.widget())));
     }
+
 }
