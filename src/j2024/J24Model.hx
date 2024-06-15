@@ -1,5 +1,6 @@
 package j2024;
 
+import j2024.TalkingRun.TalkState;
 import bootstrap.Data.IntCapValue;
 import bootstrap.Data.IntValue;
 import bootstrap.DescWrap;
@@ -18,6 +19,8 @@ class J24Model {
     public var caster:Actor;
     public var target:Actor;
     public var logger:HintLogger;
+    public var matchedCases:Map<String, Bool>;
+    public var curBattle:BattleDesc;
 
     public function new() {
         spells.push(new FireSpell());
@@ -42,6 +45,7 @@ class J24Model {
 
     public function resetCtx() {
         spell = null;
+        matchedCases = new Map();
         counts = new Map();
         for (s in AbstractEnumTools.getValues(Suit))
             counts[s] = 0;
@@ -57,7 +61,10 @@ class J24Model {
             if (!c.matches(this))
                 continue;
             c.apply(this);
-            logger.addHint(c.descr);
+            if (!matchedCases.exists(c.id)) {
+                matchedCases.set(c.id, true);
+                logger.addHint(c.descr);
+            }
         }
     }
 
@@ -101,6 +108,11 @@ class Card {
 class Spell {
     public var word(default, null):String;
     public var cases(default, null):Array<Case> = [];
+
+    function addCase(caze:Case) {
+        caze.id = word + cases.length;
+        cases.push(caze);
+    }
 }
 
 // class Cast {
@@ -108,10 +120,10 @@ class Spell {
 // }
 
 typedef Case = {
-    public var descr:String;
-
-    public function matches(cst:J24Model):Bool;
-    public function apply(ctx:J24Model):Void;
+    descr:String,
+    ?id:String,
+    matches:(cst:J24Model)->Bool,
+    apply:(ctx:J24Model)->Void,
 }
 
 enum abstract SpellcrStat(String) to String from String {
@@ -129,7 +141,11 @@ typedef Actor = SpellcrStats;
 //     var counts:Map<Suit, Int>;
 // }
 
-typedef BattleDesc = {}
+typedef BattleDesc = {
+    deck:Array<Rune>,
+    checker:String
+}
+
 class BattleData extends DescWrap<BattleDesc> {}
 
 enum ActivityDesc {
@@ -139,9 +155,11 @@ enum ActivityDesc {
 
 @:keep
 class ExecCtx extends Component {
+    @:once var defs:MrunesDefs;
     @:once var model:J24Model;
     @:once var logger:HintLogger;
     @:once var scenes:SceneManager<ActivityDesc>;
+    @:once var talking:TalkState;
 
     var ctx:ExecCtx;
 
@@ -171,9 +189,18 @@ class ExecCtx extends Component {
             throw "Wrong";
     }
 
+    public function chapter(i:Int) {
+        // trace("chap ", i);
+        talking.startChap(i);
+    }
 
-    public function battle() {
-        scenes.pushScene(Battle({}));
+    public function casted(id:String) {
+        return model.matchedCases.exists(id);
+    }
+
+    public function battle(id) {
+        var btl = defs.battles.get(id);
+        scenes.pushScene(Battle(btl));
     }
 
     function get_vars():Dynamic {

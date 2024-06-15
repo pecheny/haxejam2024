@@ -7,12 +7,12 @@ class FireSpell extends Spell {
 
     public function new() {
         word = "fire";
-        cases.push({
+        addCase({
             matches: ctx -> ctx.counts[fire] > 0,
             apply: ctx -> ctx.hitTarget(ctx.counts[fire] * dmg),
             descr: 'Fire spell deals $dmg damege per $fire rune used.'
         });
-        cases.push({
+        addCase({
             matches: ctx -> ctx.counts[fire] > 0 && ctx.counts[water] > 0,
             apply: ctx -> {
                 var pairs:Int = MathUtil.intMin(ctx.counts[fire], ctx.counts[water]);
@@ -28,12 +28,12 @@ class PineSpell extends Spell {
 
     public function new() {
         word = "pine";
-        cases.push({
+        addCase({
             matches: ctx -> ctx.counts[wood] > 0,
             apply: ctx -> ctx.hitTarget(ctx.counts[wood] * dmg),
             descr: 'Pine spell deals $dmg damege per $wood rune used.'
         });
-        cases.push({
+        addCase({
             matches: ctx -> ctx.counts[fire] > 0 && ctx.counts[wood] > 0,
             apply: ctx -> {
                 var pairs:Int = MathUtil.intMin(ctx.counts[wood], ctx.counts[fire]);
@@ -49,12 +49,12 @@ class RainSpell extends Spell {
 
     public function new() {
         word = "rain";
-        cases.push({
+        addCase({
             matches: ctx -> ctx.counts[water] > 0,
             apply: ctx -> ctx.hitTarget(ctx.counts[water] * dmg),
             descr: 'Rain spell deals $dmg damege per $water rune used.'
         });
-        // cases.push({
+        // addCase({
         //     matches: ctx -> ctx.counts[fire] > 0 && ctx.counts[fire] > 0,
         //     apply: ctx -> {
         //         var pairs:Int = MathUtil.intMin(ctx.counts[fire], ctx.counts[fire]);

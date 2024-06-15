@@ -32,7 +32,7 @@ class CastingRun extends GameRunBase {
         numPicks = 0;
         for (i in 0...8)
             gui.spell.setAt(i, null);
-        cards = [for (i in 0...16) getCard()];
+        cards = getCards();
         gui.cards.initData(cards);
     }
 
@@ -72,7 +72,12 @@ class CastingRun extends GameRunBase {
         }
     }
 
+    function getCards() {
+        return [for (r in model.curBattle.deck) new Card(fire, r)];
+    }
+
     function getCard() {
+        // [for (i in 0...16) getCard()]
         // get deck from ctx
         var runes = AbstractEnumTools.getValues(Rune);
         var suits = AbstractEnumTools.getValues(Suit);

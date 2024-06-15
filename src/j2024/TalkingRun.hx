@@ -37,6 +37,7 @@ class TalkingRun extends GameRunBase {
         model.logger = logger;
         entity.addComponent(logger);
         entity.addComponent(model);
+        entity.addComponent(defs);
         ctx.addComponent(gui);
 
         switcher = gui.switcher.switcher;
@@ -51,6 +52,7 @@ class TalkingRun extends GameRunBase {
 
     override function init() {
         talkingState = new TalkState(scenes, defs);
+        entity.addComponent(talkingState);
         getView().entity.addComponent(fui.textStyles.getStyle("small-text"));
         var ctx = entity.addComponent(new ExecCtx(entity));
         entity.addComponent(new Executor(ctx.vars));
@@ -119,7 +121,7 @@ class TalkingRun extends GameRunBase {
 }
 
 class TalkState {
-    var talkIds = ["chap-1"];
+    var talkIds = ["chap-1", "chap-2"];
     var scenes:SceneManager<ActivityDesc>;
     var defs:MrunesDefs;
     var chapId:Int;

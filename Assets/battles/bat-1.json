@@ -1,0 +1,10 @@
+{
+    "comment": "Learning fire spell",
+    "deck": [
+        "f",
+        "i",
+        "r",
+        "e"
+    ],
+    "checker": "if(ctx.casted('fire0')){ctx.chapter(1);return true;}"
+}
