@@ -21,6 +21,7 @@ class J24Model {
     public var logger:HintLogger;
     public var matchedCases:Map<String, Bool>;
     public var curBattle:BattleDesc;
+    public var battleDoneFlag:Bool = false;
 
     public function new() {
         spells.push(new FireSpell());
@@ -50,6 +51,7 @@ class J24Model {
         for (s in AbstractEnumTools.getValues(Suit))
             counts[s] = 0;
         cst = [];
+        battleDoneFlag = false;
     }
 
     public function apply(spell:Spell, cst:Array<Card>) {

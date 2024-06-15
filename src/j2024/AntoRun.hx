@@ -20,8 +20,10 @@ class AntoRun extends GameRunBase {
     override function startGame() {
         super.startGame();
         var r = executor.run(model.curBattle.checker);
-        trace("result ", r);
-        if (r)
+        if (r) {
+            model.battleDoneFlag = true;
             gameOvered.dispatch();
+        }
+
     }
 }

@@ -19,11 +19,11 @@ class MrunesRun extends SequenceRun implements ActHandler<BattleDesc> {
 
         bindBar(model.target.getStat(hlt), gui.witch.health);
         bindBar(model.caster.getStat(hlt), gui.seeker.health);
-
         entity.addComponent(model);
         // battle = new BattleRun(new Entity("battle"), Builder.widget(), gui.switcher.switcher);
         addActivity(new CastingRun(new Entity("casting-run"), new CastingGuiImpl(Builder.widget())));
         addActivity(new AntoRun(new Entity("anti-run"), new AntoGui(Builder.widget())));
+        addChecker(()-> model.battleDoneFlag);
         // addActivity(battle);
         reset();
     }
