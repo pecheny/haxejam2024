@@ -192,7 +192,7 @@ class MrunesScreen extends BaseDkit {
     static var SRC = <mrunes-screen vl={PortionLayout.instance}>
         <base(b().v(pfr, .4).b()) hl={PortionLayout.instance}>
             <witch(b().b()) public id="witch"/>
-            <label(b().b()) public id="witchLabel" text={"– Hi there"}/>
+            <label(b().b()) public id="witchLabel" text={"– Hi there"} style={"logger"}/>
         </base>
         <switcher(b().v(pfr, .4).b()) public id="switcher">
         // ${fui.quad(__this__.ph, 0x000000)}

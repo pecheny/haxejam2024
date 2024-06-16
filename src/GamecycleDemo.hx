@@ -46,4 +46,16 @@ class GamecycleDemo extends BootstrapMain {
         fui.textStyles.resetToDefaults();
 
     }
+    override function dkitDefaultStyles() {
+        super.dkitDefaultStyles();
+        var pcStyle = fui.textStyles.newStyle("small-text")
+        .withSize(sfr, .045)
+        .withPadding(horizontal, sfr, 0.1)
+        .withAlign(vertical, Center)
+        .build();
+        var pcStyle = fui.textStyles.newStyle("logger")
+        .withAlign(vertical, Forward)
+        .build();
+        fui.textStyles.resetToDefaults();
+    }
 }
