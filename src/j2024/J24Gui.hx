@@ -1,5 +1,11 @@
 package j2024;
 
+import widgets.ShapeWidget;
+import data.aliases.AttribAliases;
+import openfl.Lib;
+import openfl.display.Sprite;
+import graphics.shapes.QuadGraphicElement;
+import gl.sets.TexSet;
 import al.Builder;
 import al.al2d.Widget2DContainer;
 import al.al2d.Widget;
@@ -143,12 +149,16 @@ class WitchView extends BaseDkit {
 
     static var SRC = <witch vl={PortionLayout.instance}>
         <label(b().v(pfr, .2).b())  text={ "The Witch" }  />
-        <base(b().v(pfr, 1).b()) id="portrait"   />
+        <base(b().v(pfr, 1).l().b()) id="portrait"   >
+        ${fui.texturedQuad(__this__.ph, "bunie.png")}
+        </base>
         <base(b().v(sfr, .02).l().b())   >
         ${ health = new DeltaProgressBar2(__this__.ph)}
         </base>
         <base(b().v(sfr, .02).l().b())   />
     </witch>;
+
+    
 }
 
 @:uiComp("seeker")
