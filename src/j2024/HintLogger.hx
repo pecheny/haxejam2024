@@ -18,7 +18,7 @@ class HintLogger {
 
     public function addHint(h:String) {
         hints.push(h);
-        var numHints = 7;
+        var numHints = 10;
 
         var start = MathUtil.intMax(0, hints.length - numHints);
         var r = "";
