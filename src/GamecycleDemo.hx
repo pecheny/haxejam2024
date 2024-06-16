@@ -55,6 +55,7 @@ class GamecycleDemo extends BootstrapMain {
         .build();
         var pcStyle = fui.textStyles.newStyle("logger")
         .withAlign(vertical, Forward)
+        .withPadding(vertical, sfr, 0.1)
         .build();
         fui.textStyles.resetToDefaults();
     }
