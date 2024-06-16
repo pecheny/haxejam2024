@@ -147,6 +147,7 @@ class WitchView extends BaseDkit {
         <base(b().v(sfr, .02).l().b())   >
         ${ health = new DeltaProgressBar2(__this__.ph)}
         </base>
+        <base(b().v(sfr, .02).l().b())   />
     </witch>;
 }
 
