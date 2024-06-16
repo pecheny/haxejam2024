@@ -71,14 +71,13 @@ class RainSpell extends Spell {
 }
 
 class PainSpell extends Spell {
-    var dmg = 1;
 
     public function new() {
         word = "pain";
         addCase({
             matches: ctx -> true,
-            apply: ctx -> ctx.hitTarget(ctx.counts[wood] * dmg),
-            descr: 'Pain spell deals $dmg damege per any rune used.'
+            apply: ctx -> ctx.hitTarget(4),
+            descr: 'Pain spell deals 1 damege per any rune used.'
         });
     }
 }
