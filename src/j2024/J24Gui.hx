@@ -178,10 +178,12 @@ class AntoGui extends BaseDkit {
     public var onDone:Signal<Void->Void> = new Signal();
 
     static var SRC = <anto-gui vl={PortionLayout.instance}>
-        <label(b().v(pfr, .2).b()) id="lbl"  text={ "Nice turn" }  >
-        </label>
-        <button(b().v(pfr, .1).b())   text={ "again" } onClick={onOkClick}  />
+        <button(b().v(pfr, .1).b()) id="button"   text={ "again" } onClick={onOkClick}  />
     </anto-gui>
+
+    public function setCaption(s:String) {
+        button.text = s;
+    }
 
     function onOkClick() {
         onDone.dispatch();

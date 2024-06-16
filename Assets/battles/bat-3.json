@@ -1,6 +1,7 @@
 {
-    "comment": "Learning suits",
+    "comment": "Learning all the rest",
     "deck": ["r", "i", "a", "f", "n", "p", "e", "r", "i", "a", "f", "n", "p", "e"],
     "suits":["Ó", "ў", "ӯ"],
-    "checker": "if(ctx.model.target.hlt < 20){ctx.chapter(2);return true;}"
+    "last":true,
+    "checker": "n/a"
 }

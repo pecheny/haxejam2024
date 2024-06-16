@@ -2,13 +2,18 @@
     {
         "caption": "– You  see, the rune elements in spell may vary the effect.",
         "responces": [
-            "– I feel how knowledge is fulfilling me."
+            {
+                "caption":
+            "– I feel how knowledge is fulfilling me." }
         ]
     },
     {
-        "caption": "– Your cards are not stable. The element is floating. And can be any when you draw it. <br/> Each spell depends on elements put into them. ",
+        "caption": "– Your cards are not stable. The element is floating. And can be any when you draw it. <br/> Each spell depends on elements put into. ",
         "responces": [
+            {
+                "caption":
             "Sounds interesting! It's like a game!"
+            }
         ]
     },
     {
@@ -21,11 +26,11 @@
         ]
     },
     {
-        "caption": "– Even jam varsion of game has much more spells. Win me in battle and i teach you more .   ",
+        "caption": "– Even jam varsion of game has much more spells. Try to hit me again  and i teach you more .   ",
         "responces": [
             {
                 "caption": "...",
-                "actions": []
+                "actions": ["ctx.battle('bat-3')"]
             }
         ]
     }

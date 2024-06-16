@@ -27,6 +27,7 @@ class CastingRun extends GameRunBase {
 
     override function startGame() {
         model.resetCtx();
+        model.lastWitchHealth = model.target.hlt;
         word.resize(0);
         wasted.resize(0);
         numPicks = 0;

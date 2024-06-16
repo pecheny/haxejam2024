@@ -22,21 +22,36 @@ class J24Model {
     public var matchedCases:Map<String, Bool>;
     public var curBattle:BattleDesc;
     public var battleDoneFlag:Bool = false;
+    public var lastWitchHealth:Int;
+
+    public var allSpells:Array<String> = [];
+    public var learnedSpells:Array<String> = [];
 
     public function new() {
-        spells.push(new FireSpell());
-        spells.push(new PineSpell());
-        spells.push(new RainSpell());
+        addSpell(new FireSpell());
+        addSpell(new PineSpell());
+        addSpell(new RainSpell());
         caster = new Actor();
         target = new Actor();
+    }
+
+    function addSpell(s:Spell) {
+        spells.push(s);
+        allSpells.push(s.word);
     }
 
     public function init() {
         caster.getStat(hlt).init(20);
         target.getStat(hlt).init(20);
+        learnedSpells = ["fire"];
     }
 
-    public function startGame() {}
+    public function getUnlearnedSpell() {
+        for (s in allSpells)
+            if (!learnedSpells.contains(s))
+                return s;
+        return null;
+    }
 
     public function resetCtx() {
         spell = null;
@@ -51,6 +66,10 @@ class J24Model {
     public function apply(spell:Spell, cst:Array<Card>) {
         this.spell = spell;
         this.cst = cst;
+
+        logger.addHint('Casting ${spell.word} <br/>');
+        if (!learnedSpells.contains(spell.word))
+            learnedSpells.push(spell.word);
         for (c in cst)
             counts[c.suit]++;
         for (c in spell.cases) {
@@ -128,7 +147,8 @@ typedef Actor = SpellcrStats;
 typedef BattleDesc = {
     deck:Array<Rune>,
     suits:Array<Suit>,
-    checker:String
+    checker:String,
+    ?last:Bool
 }
 
 class BattleData extends DescWrap<BattleDesc> {}
