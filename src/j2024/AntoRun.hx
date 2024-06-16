@@ -1,5 +1,6 @@
 package j2024;
 
+import gameapi.GameRunBinder;
 import bootstrap.SimpleRunBinder;
 import bootstrap.Executor;
 import bootstrap.GameRunBase;
@@ -19,7 +20,7 @@ class AntoRun extends GameRunBase {
 
     function onGameOver() {
         if (gameOveredFlag) {
-            var sr = entity.getComponentUpward(SimpleRunBinder);
+            var sr:SimpleRunBinder = cast entity.getComponentUpward(GameRunBinder);
             @:privateAccess sr.startGame();
         } else {
             gameOvered.dispatch();
