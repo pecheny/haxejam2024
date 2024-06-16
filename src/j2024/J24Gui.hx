@@ -178,7 +178,9 @@ class AntoGui extends BaseDkit {
     public var onDone:Signal<Void->Void> = new Signal();
 
     static var SRC = <anto-gui vl={PortionLayout.instance}>
+        <base(b().v(pfr, .1).b()) />
         <button(b().v(pfr, .1).b()) id="button"   text={ "again" } onClick={onOkClick}  />
+        <base(b().v(pfr, .1).b()) />
     </anto-gui>
 
     public function setCaption(s:String) {
@@ -193,13 +195,13 @@ class AntoGui extends BaseDkit {
 class MrunesScreen extends BaseDkit {
     static var SRC = <mrunes-screen vl={PortionLayout.instance}>
         <base(b().v(pfr, .4).b()) hl={PortionLayout.instance}>
-            <witch(b().b()) public id="witch"/>
-            <label(b().b()) public id="witchLabel" text={"– Hi there"} style={"logger"}/>
+            <witch(b().h(pfr,1).b()) public id="witch"/>
+            <label(b().h(pfr,3).b()) public id="witchLabel" text={"– Hi there"} style={"logger"}/>
         </base>
-        <switcher(b().v(pfr, .4).b()) public id="switcher">
+        <switcher(b().v(pfr, .3).b()) public id="switcher">
         // ${fui.quad(__this__.ph, 0x000000)}
         </switcher>
-        <seeker(b().v(pfr, .2).b()) public id="seeker"  />
+        <seeker(b().v(pfr, .1).b()) public id="seeker"  />
     </mrunes-screen>
 }
 
