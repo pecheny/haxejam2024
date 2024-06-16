@@ -50,7 +50,11 @@ class CastingRun extends GameRunBase {
 
     function castSpell(spell:Spell) {
         model.apply(spell, word);
-        gameOvered.dispatch();
+        if (spell.modifier) {
+            word.resize(0);
+        } else {
+            gameOvered.dispatch();
+        }
     }
 
     function checkWord() {

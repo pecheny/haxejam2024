@@ -29,7 +29,7 @@ class FireSpell extends Spell {
 }
 
 class PineSpell extends Spell {
-    var dmg = 1;
+    var dmg = 2;
 
     public function new() {
         word = "pine";
@@ -67,5 +67,43 @@ class RainSpell extends Spell {
         //     },
         //     descr: 'Each $fire rune used along with $wood rune dameges target $dmg as a torch.'
         // });
+    }
+}
+
+class PainSpell extends Spell {
+    var dmg = 1;
+
+    public function new() {
+        word = "pain";
+        addCase({
+            matches: ctx -> true,
+            apply: ctx -> ctx.hitTarget(ctx.counts[wood] * dmg),
+            descr: 'Pain spell deals $dmg damege per any rune used.'
+        });
+    }
+}
+class PairSpell extends Spell {
+
+    public function new() {
+        word = "pair";
+        modifier = true;
+        addCase({
+            matches: ctx -> true,
+            apply: ctx -> ctx.multiplier = 2,
+            descr: 'Pair spell multiplies the effect of following one by 2'
+        });
+    }
+}
+
+class FineSpell extends Spell {
+
+    public function new() {
+        word = "fine";
+        modifier = true;
+        addCase({
+            matches: ctx -> true,
+            apply: ctx -> ctx.multiplier = 3,
+            descr: 'Fine spell multiplies the effect of following one by 3'
+        });
     }
 }

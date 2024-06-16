@@ -26,11 +26,15 @@ class J24Model {
 
     public var allSpells:Array<String> = [];
     public var learnedSpells:Array<String> = [];
+    public var multiplier:Int;
 
     public function new() {
         addSpell(new FireSpell());
         addSpell(new PineSpell());
         addSpell(new RainSpell());
+        addSpell(new PainSpell());
+        addSpell(new PairSpell());
+        addSpell(new FineSpell());
         caster = new Actor();
         target = new Actor();
     }
@@ -55,6 +59,7 @@ class J24Model {
 
     public function resetCtx() {
         spell = null;
+        multiplier = 1;
         matchedCases = new Map();
         counts = new Map();
         for (s in AbstractEnumTools.getValues(Suit))
@@ -84,13 +89,15 @@ class J24Model {
     }
 
     public function hitTarget(dmg:Int, ?type:String) {
-        target.hlt -= dmg;
-        logger.addHint('$dmg damage dealt');
+        var rdmg = dmg * multiplier;
+        target.hlt -= rdmg;
+        logger.addHint('$rdmg damage dealt');
     }
 
     public function hitCaster(dmg:Int, ?type:String) {
-        caster.hlt -= dmg;
-        logger.addHint('$dmg damage dealt');
+        var rdmg = dmg * multiplier;
+        caster.hlt -= rdmg;
+        logger.addHint('$rdmg damage dealt');
     }
 }
 
@@ -123,6 +130,7 @@ class Card {
 class Spell {
     public var word(default, null):String;
     public var cases(default, null):Array<Case> = [];
+    public var modifier:Bool = false;
 
     function addCase(caze:Case) {
         caze.id = word + cases.length;
