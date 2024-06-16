@@ -86,6 +86,8 @@ class J24Model {
                 logger.addHint(c.descr);
             }
         }
+        for (s in AbstractEnumTools.getValues(Suit))
+            counts[s] = 0;
     }
 
     public function hitTarget(dmg:Int, ?type:String) {
