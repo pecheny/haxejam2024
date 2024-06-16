@@ -2,16 +2,15 @@
     {
         "caption": "Whoa! What the hell are you doing here?",
         "responces": [
-            { "caption": "Dirty Witch! What kind of magic do you use? I need to know it all!" ,
-            "actions": ["ctx.battle('bat-1')"]},
-            { "caption": "– I'm traveling in thirst of knowledge. I'd heared you are the last rune caster. This sacred skill is my goal." }
+            { "caption": "– I'm traveling in thirst of knowledge. I'd heared you are the last rune caster. This sacred skill is my goal." },
+            { "caption": "– Dirty Witch! What kind of magic do you use? I need to know it all!" , "actions": ["ctx.battle('bat-1')"]}
         ]
     },
     {
         "caption": "– This kind of magic is demanding. Let's see if you have the aptitude.",
         "responces": [
             {
-                "caption": "Okay [TODO]"
+                "caption": "I'll do my best!"
             }
         ]
     },
@@ -37,17 +36,7 @@
         "responces": [
             {
                 "caption": "– Okay ",
-                "actions": []
+                "actions": ["ctx.battle('bat-1')"]
             }
         ]
-    },
-    {
-        "caption": "",
-        "responces": [
-            {
-                "caption": "",
-                "actions": []
-            }
-        ]
-    }
-]
+    }]

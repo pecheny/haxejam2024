@@ -1,0 +1,6 @@
+{
+    "comment": "Learning fire spell",
+    "deck": ["r", "i", "a", "f", "n", "p", "e", "r", "i", "a", "f", "n", "p", "e"],
+    "suits":["Ó", "ў", "ӯ"],
+    "checker": "if(ctx.casted('fire0')){ctx.chapter(1);return true;}"
+}

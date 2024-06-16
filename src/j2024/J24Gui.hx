@@ -1,5 +1,11 @@
 package j2024;
 
+import al.Builder;
+import al.al2d.Widget2DContainer;
+import al.al2d.Widget;
+import widgets.Label;
+import loops.talk.TalkData.DialogDesc;
+import loops.talk.TalkingActivity.ITalkingWidget;
 import al.al2d.Placeholder2D;
 import al.ec.WidgetSwitcher;
 import fancy.widgets.DeltaProgressBar2;
@@ -193,4 +199,63 @@ class MrunesScreen extends BaseDkit {
         </switcher>
         <seeker(b().v(pfr, .2).b()) public id="seeker"  />
     </mrunes-screen>
+}
+
+class TalkingGui implements ITalkingWidget extends BaseDkit {
+    // var caption:Label;
+    var logger:HintLogger;
+    var container:Widget2DContainer;
+    var input:DataChildrenPool<String, ResponceButton>;
+    var data:DialogDesc;
+
+    public var onChoise(default, null):IntSignal = new IntSignal();
+
+    public function new(ph:Placeholder2D, l:HintLogger, ?parent:BaseDkit) {
+        super(ph, parent);
+        this.logger = l;
+        container = Builder.createContainer(ph, vertical, Center);
+        init();
+        initComponent();
+        // this.caption = capts;
+    }
+
+    public function initDescr(d:DialogDesc) {
+        // caption.withText(d.caption);
+        data = d;
+        logger.addHint(d.caption);
+        input.initData(d.responces.map(r -> r.caption));
+    }
+
+    override function init() {
+        if (_inited)
+            return;
+        super.init();
+        input = new InteractivePanelBuilder().withContainer(container).withWidget(() -> {
+            var c = new ResponceButton(b().h(pfr, 0.1).v(sfr, 0.1).b());
+            c;
+        }).withSignal(onChoise).build();
+
+        onChoise.listen(n -> logger.addHint(data.responces[n].caption));
+    }
+}
+
+class ResponceButton extends BaseDkit implements DataView<String> {
+    public var onDone:Signal<Void->Void> = new Signal();
+
+    @:once var colors:ShapesColorAssigner<ColorSet>;
+    @:once var viewProc:ClickViewProcessor;
+
+    static var SRC = <responce-button vl={PortionLayout.instance}>
+        ${fui.quad(__this__.ph, 0x000000)}
+        <label(b().v(pfr, 6).b()) id="rune"  style={"small-text"}  />
+    </responce-button>
+
+    override function init() {
+        super.init();
+        viewProc.addHandler(new InteractiveColors(colors.setColor).viewHandler);
+    }
+
+    public function initData(descr:String) {
+        rune.text = descr;
+    }
 }

@@ -1,5 +1,6 @@
 package j2024;
 
+import j2024.J24Gui.TalkingGui;
 import al.Builder;
 import al.al2d.Placeholder2D;
 import al.ec.WidgetSwitcher;
@@ -56,7 +57,9 @@ class TalkingRun extends GameRunBase {
         getView().entity.addComponent(fui.textStyles.getStyle("small-text"));
         var ctx = entity.addComponent(new ExecCtx(entity));
         entity.addComponent(new Executor(ctx.vars));
-        var talking = addactivity(new TalkingActivity(new Entity("talk-run"), Builder.widget()));
+        var tgui = new TalkingGui(Builder.widget(), logger);
+        var talking = addactivity(new TalkingActivity(new Entity("talk-run"), tgui.ph));
+        talking.entity.addComponentByType(ITalkingWidget, tgui);
         var battle = addactivity(new MrunesRun(new Entity("battle-run"), Builder.widget(), switcher));
         acts.regHandler(talking, DialogData);
         acts.regHandler(battle, BattleData);

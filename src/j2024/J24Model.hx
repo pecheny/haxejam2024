@@ -145,6 +145,7 @@ typedef Actor = SpellcrStats;
 
 typedef BattleDesc = {
     deck:Array<Rune>,
+    suits:Array<Suit>,
     checker:String
 }
 

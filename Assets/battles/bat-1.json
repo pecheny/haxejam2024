@@ -6,5 +6,6 @@
         "r",
         "e"
     ],
+    "suits":["Ó"],
     "checker": "if(ctx.casted('fire0')){ctx.chapter(1);return true;}"
 }
