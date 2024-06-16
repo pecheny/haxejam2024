@@ -34,12 +34,6 @@ class J24Model {
     public function init() {
         caster.getStat(hlt).init(20);
         target.getStat(hlt).init(20);
-        // caster.initAll({
-        //     hlt: 20
-        // });
-        // target.initAll({
-        //     hlt: 20
-        // });
     }
 
     public function startGame() {}
@@ -117,9 +111,6 @@ class Spell {
     }
 }
 
-// class Cast {
-//     public var cards:Array<Card> = [];
-// }
 
 typedef Case = {
     descr:String,
@@ -135,13 +126,6 @@ enum abstract SpellcrStat(String) to String from String {
 class SpellcrStats extends Stats<SpellcrStat, IntCapValue> {}
 typedef Actor = SpellcrStats;
 
-// typedef SpellCtx = {
-//     var caster:Actor;
-//     var target:Actor;
-//     var cst:Array<Card>;
-//     var spell:Spell;
-//     var counts:Map<Suit, Int>;
-// }
 
 typedef BattleDesc = {
     deck:Array<Rune>,
@@ -169,8 +153,6 @@ class ExecCtx extends Component {
     @:isVar public var vars(get, null):Dynamic = {};
 
     override function init() {
-        // for (k in stats.stats.keys())
-        //     Reflect.setField(vars, k, k);
         Reflect.setField(vars, "ctx", this);
         ctx = this;
     }
