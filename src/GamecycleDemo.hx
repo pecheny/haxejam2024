@@ -1,5 +1,9 @@
 package;
 
+import al.layouts.PortionLayout;
+import al.layouts.data.LayoutData.FixedSize;
+import al.layouts.WholefillLayout;
+import fancy.Layouts.ContainerStyler;
 import j2024.TalkingRun;
 import bootstrap.BootstrapMain;
 import ec.CtxWatcher;
@@ -58,5 +62,9 @@ class GamecycleDemo extends BootstrapMain {
         .withPadding(vertical, sfr, 0.1)
         .build();
         fui.textStyles.resetToDefaults();
+
+        var distributer = new al.layouts.Padding(new FixedSize(.07), new PortionLayout(Center, new FixedSize(0.07)));
+        var contLayouts = rootEntity.getComponent (ContainerStyler);
+        contLayouts.reg("cards", distributer, WholefillLayout.instance);
     }
 }

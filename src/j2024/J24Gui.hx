@@ -108,7 +108,7 @@ class CardsView implements CardPicker extends BaseDkit {
     var input:DataChildrenPool<Card, CardView>;
 
     static var SRC = <cards>
-        <base(b().h(pfr, 1).v(pfr, 1).b()) id="cardsContainer" hl={PortionLayout.instance}  />
+        <base(b().h(pfr, 1).v(pfr, 1).b()) id="cardsContainer" layouts={"cards"}  />
     </cards>;
 
     override function init() {
