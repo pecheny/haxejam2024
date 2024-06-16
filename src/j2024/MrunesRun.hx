@@ -46,7 +46,6 @@ class MrunesRun extends SequenceRun implements ActHandler<BattleDesc> {
 
     override function reset() {
         super?.reset();
-        model?.init();
         model?.resetCtx();
     }
 }

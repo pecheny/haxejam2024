@@ -69,6 +69,7 @@ class TalkingRun extends GameRunBase {
     override function reset() {
         act?.reset();
         logger?.reset();
+        model?.init();
         talkingState?.reset();
     }
 
