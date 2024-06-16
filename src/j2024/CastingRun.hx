@@ -73,7 +73,8 @@ class CastingRun extends GameRunBase {
     }
 
     function getCards() {
-        return [for (r in model.curBattle.deck) new Card(fire, r)];
+        var suits = model.curBattle.suits;
+        return [for (r in model.curBattle.deck) new Card(Random.fromArray(suits), r)];
     }
 
     function getCard() {
