@@ -111,12 +111,11 @@ class Spell {
     }
 }
 
-
 typedef Case = {
     descr:String,
     ?id:String,
-    matches:(cst:J24Model)->Bool,
-    apply:(ctx:J24Model)->Void,
+    matches:(cst:J24Model) -> Bool,
+    apply:(ctx:J24Model) -> Void,
 }
 
 enum abstract SpellcrStat(String) to String from String {
@@ -125,7 +124,6 @@ enum abstract SpellcrStat(String) to String from String {
 
 class SpellcrStats extends Stats<SpellcrStat, IntCapValue> {}
 typedef Actor = SpellcrStats;
-
 
 typedef BattleDesc = {
     deck:Array<Rune>,
@@ -177,6 +175,10 @@ class ExecCtx extends Component {
     public function chapter(i:Int) {
         // trace("chap ", i);
         talking.startChap(i);
+    }
+
+    public function log(s:String) {
+        logger.addHint(s);
     }
 
     public function casted(id:String) {
