@@ -22,6 +22,7 @@ class GamecycleDemo extends BootstrapMain {
 
     public function new() {
         super();
+        stage.window.frameRate = 20;
 
         var ph = Builder.widget();
         fui.makeClickInput(ph);
