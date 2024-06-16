@@ -150,7 +150,7 @@ class WitchView extends BaseDkit {
     static var SRC = <witch vl={PortionLayout.instance}>
         <label(b().v(pfr, .2).b())  text={ "The Witch" }  />
         <base(b().v(pfr, 1).l().b()) id="portrait"   >
-        ${fui.texturedQuad(__this__.ph, "bunie.png")}
+        ${fui.texturedQuad(__this__.ph, "witch-portrait.png")}
         </base>
         <base(b().v(sfr, .02).l().b())   >
         ${ health = new DeltaProgressBar2(__this__.ph)}
