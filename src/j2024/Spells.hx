@@ -8,6 +8,11 @@ class FireSpell extends Spell {
     public function new() {
         word = "fire";
         addCase({
+            matches: ctx -> true,
+            apply: ctx -> {},
+            descr: "You can put runes into the spell! It's interesting. Try to hurt me and if you so talented as it seems, I'll teach you more."
+        });
+        addCase({
             matches: ctx -> ctx.counts[fire] > 0,
             apply: ctx -> ctx.hitTarget(ctx.counts[fire] * dmg),
             descr: 'Fire spell deals $dmg damege per $fire rune used.'

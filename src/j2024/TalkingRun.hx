@@ -125,7 +125,7 @@ class TalkingRun extends GameRunBase {
 }
 
 class TalkState {
-    var talkIds = ["chap-1", "chap-2"];
+    var talkIds = ["chap-1", "chap-2", "chap-3"];
     var scenes:SceneManager<ActivityDesc>;
     var defs:MrunesDefs;
     var chapId:Int;

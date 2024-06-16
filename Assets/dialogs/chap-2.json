@@ -1,6 +1,6 @@
 [
     {
-        "caption": "... Another few years later. ",
+        "caption": "Here you are your full deck of runes. Try to cast fire again.",
         "responces": [
             { "caption": "– Hey, Witch! Taste this one!",
             "actions": ["ctx.battle('bat-2')"]}

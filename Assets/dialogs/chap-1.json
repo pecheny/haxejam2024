@@ -3,7 +3,10 @@
         "caption": "Whoa! What the hell are you doing here?",
         "responces": [
             { "caption": "– I'm traveling in thirst of knowledge. I'd heared you are the last rune caster. This sacred skill is my goal." },
-            { "caption": "– Dirty Witch! What kind of magic do you use? I need to know it all!" , "actions": ["ctx.battle('bat-1')"]}
+            { "caption": "– Dirty Witch! What kind of magic do you use? I need to know it all!" ,
+             "actions": [
+                "ctx.log('Ah.. you are dum... brave one. Lets see what you can.')",
+                "ctx.battle('bat-1')"]}
         ]
     },
     {
@@ -23,7 +26,7 @@
         ]
     },
     {
-        "caption": "... Several years later ",
+        "caption": "...",
         "responces": [
             {
                 "caption": "– I didnt sleep all this years to learn sick symbols. But I'm done!",

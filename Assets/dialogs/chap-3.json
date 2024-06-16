@@ -1,7 +1,18 @@
 [
-    
     {
-        "caption": "– Your cards is not stable. The element is floating. And can be any when you draw it. You'll have a chance to acquire or change cards during the game.  (Of cource not in jam version of the game, deckbuilding for another time. Just an idea for now.) ",
+        "caption": "– You  see, the rune elements in spell may vary the effect.",
+        "responces": [
+            "– I feel how knowledge is fulfilling me."
+        ]
+    },
+    {
+        "caption": "– Your cards are not stable. The element is floating. And can be any when you draw it. <br/> Each spell depends on elements put into them. ",
+        "responces": [
+            "Sounds interesting! It's like a game!"
+        ]
+    },
+    {
+        "caption": "Not all cards are floating. During the game You'll have a chance to acquire  cards attributed by stable element.  (Of cource not in jam version of the game, deckbuilding for another time. Just an idea for now.) ",
         "responces": [
             {
                 "caption": "– OMG! I can't wait for the release. I'll buy a copy on steam, switch, mobile and any other platform available! Where i can preorder limited edition for $100 of become a patron?  ",
@@ -10,7 +21,7 @@
         ]
     },
     {
-        "caption": "– Win me in battle and i teach you more spells.  ",
+        "caption": "– Even jam varsion of game has much more spells. Win me in battle and i teach you more .   ",
         "responces": [
             {
                 "caption": "...",
@@ -18,5 +29,4 @@
             }
         ]
     }
-    
 ]
