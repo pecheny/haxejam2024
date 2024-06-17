@@ -1,0 +1,5 @@
+# @install: lix --silent download "gh://github.com/pecheny/shimp#e0e21e89457e5c581c5428dbdef183c6df9ef8bc" into shimp/0.1.0/github/e0e21e89457e5c581c5428dbdef183c6df9ef8bc
+-lib fsm
+-lib taxis
+-cp ${HAXE_LIBCACHE}/shimp/0.1.0/github/e0e21e89457e5c581c5428dbdef183c6df9ef8bc/src
+-D shimp=0.1.0
